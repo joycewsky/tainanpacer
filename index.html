@@ -145,7 +145,58 @@
       
       footer{ font-size:11px; margin-top:10px; padding:0 10px; line-height:1.6; }
     }
-    
+    /* ======== 修正手機水平滾動問題（新增強化版） ======== */
+
+/* 所有元素避免超出螢幕 */
+* {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* wrap 容器：手機版本不允許產生第二欄 */
+.wrap {
+  max-width: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* 強制手機改成單欄（避免 grid 殘留寬度） */
+@media (max-width: 880px){
+  .wrap {
+    display: block !important;
+  }
+}
+
+/* 確保 flex 項目不會因為 min-width 撐破螢幕 */
+header,
+.row,
+.station {
+  flex-wrap: wrap;
+}
+
+/* 避免 SVG / IMG 撐破畫面 */
+svg, img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 表格可左右滑動，但不撐出手機寬度 */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  max-width: 100%; 
+}
+
+/* 表格內部保持最小寬度但不影響外層 */
+table th, table td {
+  white-space: nowrap;
+}
+
     /* 超小螢幕優化 (< 400px) */
     @media (max-width:400px){
       header h1{ font-size:15px; }
