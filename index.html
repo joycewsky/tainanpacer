@@ -40,6 +40,120 @@
     @media (max-width:880px){
       .wrap{ grid-template-columns: 1fr; padding:14px; }
     }
+    
+    /* 手機版優化 */
+    @media (max-width:640px){
+      .wrap{ padding:10px; gap:12px; margin:10px auto; }
+      
+      /* Header 優化 */
+      header{ 
+        padding:10px 12px; 
+        border-radius:12px;
+        flex-direction:row;
+        align-items:center;
+      }
+      header .logo{ width:48px; height:48px; flex-shrink:0; }
+      header h1{ font-size:17px; line-height:1.3; }
+      header h1 + div{ font-size:11px; margin-top:2px; }
+      
+      /* 卡片優化 */
+      .card{ padding:12px; border-radius:12px; }
+      
+      /* 輸入區優化 */
+      select, input[type="number"], input[type="text"]{ 
+        padding:12px; 
+        font-size:16px; /* 避免 iOS 自動縮放 */
+        min-height:44px; /* 觸控友善 */
+      }
+      
+      label{ font-size:14px; margin-bottom:8px; font-weight:600; }
+      
+      /* 補給站卡片優化 */
+      .station{ 
+        padding:10px; 
+        flex-direction:column; 
+        align-items:stretch;
+        gap:8px;
+      }
+      .station .meta{ font-size:14px; }
+      .station small{ font-size:13px; margin-top:2px; }
+      .station input{ 
+        width:100% !important; 
+        min-height:44px;
+        font-size:16px;
+      }
+      .station > div:last-child{ 
+        min-width:100%; 
+        text-align:left; 
+      }
+      
+      /* 按鈕優化 */
+      .btns{ flex-direction:column; gap:8px; }
+      button{ 
+        padding:14px 16px; 
+        font-size:16px;
+        min-height:48px;
+        width:100%;
+      }
+      
+      /* 結果區優化 */
+      .summary{ padding:14px; }
+      .pace-big{ font-size:32px; }
+      .summary > div:first-child{ 
+        flex-direction:column; 
+        align-items:flex-start;
+        gap:12px;
+      }
+      .summary > div:first-child > div:last-child{ 
+        text-align:left; 
+        align-self:flex-start;
+      }
+      
+      /* 表格優化 */
+      table{ min-width:600px; }
+      th,td{ padding:10px 8px; font-size:13px; }
+      th:first-child, td:first-child{ padding-left:12px; }
+      th:last-child, td:last-child{ padding-right:12px; }
+      
+      .table-wrap{ 
+        border-radius:8px;
+        -webkit-overflow-scrolling: touch; /* iOS 平滑滾動 */
+      }
+      
+      /* 天氣卡片優化 */
+      .weather-list{ 
+        gap:10px; 
+        -webkit-overflow-scrolling: touch;
+      }
+      .weather-item{ 
+        min-width:120px; 
+        padding:10px;
+        flex-shrink:0;
+      }
+      .weather-time{ font-size:13px; }
+      .weather-temp{ font-size:18px; }
+      .weather-desc{ font-size:13px; }
+      
+      /* 提示訊息優化 */
+      .inputs > div:last-child{ font-size:13px; line-height:1.5; }
+      
+      /* 標題區優化 */
+      .card > div[style*="justify-content:space-between"]{ 
+        flex-wrap:wrap; 
+        gap:6px; 
+      }
+      
+      footer{ font-size:11px; margin-top:10px; padding:0 10px; line-height:1.6; }
+    }
+    
+    /* 超小螢幕優化 (< 400px) */
+    @media (max-width:400px){
+      header h1{ font-size:15px; }
+      header .logo{ width:42px; height:42px; }
+      .pace-big{ font-size:28px; }
+      .row{ flex-direction:column; }
+      .row .col{ width:100%; }
+    }
 
     header{
       grid-column: 1 / -1;
@@ -178,6 +292,20 @@
 
     /* 小提示與錯誤訊息 */
     .msg{ padding:10px;border-radius:10px;background:#fff6f3;border:1px solid rgba(255,122,45,0.12); color:#7a3b1b; font-weight:700; }
+    
+    /* 滑動提示 */
+    .scroll-hint{ 
+      font-size:12px;
+      color:var(--main-orange);
+      margin-bottom:6px;
+      text-align:center;
+      display:none;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
 
     footer{ grid-column:1/-1; text-align:center; font-size:12px; color:var(--muted); margin-top:6px; }
     /* 避免手機橫向滾動出現（主要是內部表格可左右滑動） */
@@ -217,11 +345,11 @@
         <div class="row">
           <div class="col">
             <label>預計完賽時間 - 小時</label>
-            <input type="number" id="hours" min="0" value="1" />
+            <input type="number" id="hours" min="0" value="1" aria-label="完賽時間-小時" />
           </div>
           <div class="col">
             <label>預計完賽時間 - 分鐘</label>
-            <input type="number" id="minutes" min="0" max="59" value="30" />
+            <input type="number" id="minutes" min="0" max="59" value="30" aria-label="完賽時間-分鐘" />
           </div>
         </div>
 
@@ -261,10 +389,11 @@
       </div>
 
       <div class="card" style="padding:8px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
           <div style="font-weight:800">配速表</div>
           <div style="font-size:12px;color:var(--muted)">每公里段落（尾段若為小數則以小數公里顯示）</div>
         </div>
+        <div class="scroll-hint" id="scrollHint">← 左右滑動查看完整表格 →</div>
         <div class="table-wrap" id="tableWrap">
           <table id="paceTable" aria-live="polite">
             <thead>
@@ -283,10 +412,11 @@
       </div>
 
       <div class="weather card" id="weatherCard">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
           <div style="font-weight:800">台南 — 未來 36 小時天氣</div>
           <div style="font-size:12px;color:var(--muted)">資料來源：中央氣象署</div>
         </div>
+        <div class="scroll-hint" id="weatherScrollHint">← 左右滑動查看更多 →</div>
         <div id="weatherArea">
           <div class="weather-list" id="weatherList">
             <!-- 由 JS 填入天氣項目 -->
@@ -301,7 +431,7 @@
 
   <script>
     /******************************************************
-     * 台南古都半程馬拉松配速計算器 - 原生 JS（已修正）
+     * 台南古都半程馬拉松配速計算器 - 原生 JS（手機優化版）
      ******************************************************/
 
     // --- 補給站資料 ---
@@ -368,7 +498,7 @@
           </div>
           <div style="min-width:150px; text-align:right;">
             <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px">休息秒數 (秒)</label>
-            <input type="number" min="0" value="0" data-distance="${s.d}" class="restInput" style="width:110px;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)"/>
+            <input type="number" min="0" value="0" data-distance="${s.d}" class="restInput" style="width:110px;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)" aria-label="第${s.d}公里補給站休息秒數"/>
           </div>
         `;
         stationsContainer.appendChild(div);
@@ -483,6 +613,9 @@
       });
 
       document.getElementById('tableWrap').scrollLeft = 0;
+      
+      // 在手機上顯示滑動提示
+      updateScrollHints();
     }
 
     // 清除所有輸入
@@ -494,6 +627,17 @@
       runTimeEl.textContent = "--:--:--";
       paceTableBody.innerHTML = '';
       encourageEl.textContent = '你一定可以完賽！';
+      document.getElementById('scrollHint').style.display = 'none';
+    }
+
+    // 更新滑動提示顯示
+    function updateScrollHints() {
+      const isMobile = window.innerWidth <= 640;
+      const hasTable = paceTableBody.children.length > 0;
+      const hasWeather = weatherListEl.children.length > 3;
+      
+      document.getElementById('scrollHint').style.display = (isMobile && hasTable) ? 'block' : 'none';
+      document.getElementById('weatherScrollHint').style.display = (isMobile && hasWeather) ? 'block' : 'none';
     }
 
     /******************************************************
@@ -538,6 +682,9 @@
 
           weatherListEl.appendChild(div);
         }
+        
+        // 在手機上顯示滑動提示
+        updateScrollHints();
       } catch (err) {
         console.error(err);
         weatherMsg.textContent = "天氣資料暫時無法取得，請稍後再試。";
@@ -551,6 +698,7 @@
       runTimeEl.textContent = "--:--:--";
       paceTableBody.innerHTML = '';
       totalKmEl.textContent = raceTypeEl.value;
+      document.getElementById('scrollHint').style.display = 'none';
     });
     calcBtn.addEventListener('click', calculate);
     clearBtn.addEventListener('click', clearAll);
@@ -573,6 +721,9 @@
         }
       });
     });
+    
+    // 監聽視窗大小變化，調整滑動提示顯示
+    window.addEventListener('resize', updateScrollHints);
 
   </script>
 </body>
